@@ -1,7 +1,28 @@
+import { useRef } from 'react';
+import { addProduct } from '@services/api/products';
+
 export default function FormProduct() {
+  const formRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(formRef.current);
+    const data = {
+      title: formData.get('title'),
+      price: parseInt(formData.get('price')),
+      description: formData.get('description'),
+      categoryId: parseInt(formData.get('category')),
+      images: [`https://${formData.get('images').name}fake.com`],
+    };
+    console.log(data);
+    addProduct(data).then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
-    <form>
-      <div className="overflow-hidden rounded-xl">
+    <form ref={formRef} onSubmit={(event) => handleSubmit(event)}>
+      <div className="overflow-hidden">
         <div className="px-4 py-5 bg-white sm:p-6">
           <div className="grid grid-cols-6 gap-6">
             <div className="col-span-6 sm:col-span-3">
@@ -48,7 +69,7 @@ export default function FormProduct() {
             </div>
             <div className="col-span-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Cover photo</label>
+                <p className="block text-sm font-medium text-gray-700">Cover photo</p>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -76,7 +97,7 @@ export default function FormProduct() {
             </div>
           </div>
         </div>
-        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 rounded-b-lg">
           <button
             type="submit"
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
