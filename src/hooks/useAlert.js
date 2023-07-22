@@ -1,26 +1,11 @@
 import { useState } from 'react';
 
-function useAlert(options) {
-  const defaultOptions = {
-    active: false,
-    message: '',
-    type: '',
-    autoClose: true,
-  };
-
-  const [alert, setAlert] = useState({
-    ...defaultOptions,
-    ...options,
-  });
-
-  const toggleAlert = () => {
-    setAlert(!alert.active);
-  };
+function useAlert() {
+  const [alert, setAlert] = useState(false);
 
   return {
     alert,
     setAlert,
-    toggleAlert,
   };
 }
 
