@@ -1,11 +1,12 @@
 import { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
-import { PlusIcon } from '@heroicons/react/20/solid';
+import Swal from 'sweetalert2';
+import { PlusIcon, XCircleIcon } from '@heroicons/react/20/solid';
 import MyModal from '@common/MyModal';
 import FormProduct from '@components/FormProduct';
 import endPoints from '@services/api';
 import useAlert from '@hooks/useAlert';
-import { Alert } from '@common/Alert';
+import { deleteProduct } from '@services/api/products';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,26 @@ export default function Products() {
   const [open, setOpen] = useState(false);
 
   // Alert state
-  const { alert, setAlert, toggleAlert } = useAlert();
+  const { alert, setAlert } = useAlert();
+
+  const handleDelete = (productId) => {
+    deleteProduct(productId)
+      .then(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Product deleted succesfully',
+          confirmButtonText: 'Okay',
+        });
+        setAlert(!alert);
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: `Something went wrong: ${error}`,
+          confirmButtonText: 'Okay',
+          icon: 'warning',
+        });
+      });
+  };
 
   useEffect(() => {
     const getProducts = async () => {
@@ -101,9 +121,7 @@ export default function Products() {
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="/edit" className="text-indigo-600 hover:text-indigo-900">
-                          Delete
-                        </a>
+                        <XCircleIcon className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer" onClick={() => handleDelete(product.id)} />
                       </td>
                     </tr>
                   ))}
@@ -116,7 +134,7 @@ export default function Products() {
       <div>
         <MyModal open={open} setOpen={setOpen}>
           <div className="bg-black/30 rounded-b-lg">
-            <FormProduct setOpen={setOpen} setAlert={setAlert} />
+            <FormProduct setOpen={setOpen} alert={alert} setAlert={setAlert} />
           </div>
         </MyModal>
       </div>
