@@ -1,12 +1,32 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
+import axios from 'axios';
 import { PlusIcon } from '@heroicons/react/20/solid';
-import Modal from '@common/Modal';
 import MyModal from '@common/MyModal';
 import FormProduct from '@components/FormProduct';
+import endPoints from '@services/api';
+import useAlert from '@hooks/useAlert';
+import { Alert } from '@common/Alert';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  // Open Modal state
   const [open, setOpen] = useState(false);
+
+  // Alert state
+  const { alert, setAlert, toggleAlert } = useAlert();
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await axios.get(endPoints.products.getAllProducts);
+      setProducts(response.data);
+    };
+
+    try {
+      getProducts();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [alert]);
 
   return (
     <>
@@ -95,8 +115,8 @@ export default function Products() {
       </div>
       <div>
         <MyModal open={open} setOpen={setOpen}>
-          <div>
-            <FormProduct />
+          <div className="bg-black/30 rounded-b-lg">
+            <FormProduct setOpen={setOpen} setAlert={setAlert} />
           </div>
         </MyModal>
       </div>
