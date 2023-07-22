@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@hooks/useAuth';
 import Image from 'next/image';
+import ccLogo from '../../public/chriscodex-isotipo-light.svg';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -38,7 +39,7 @@ export default function Header() {
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <Image className="h-8 w-8" src="https://tailwindui.com/Image/logos/workflow-mark-indigo-500.svg" alt="Workflow" />
+                    <Image width={12} height={12} className="h-12 w-12" src={ccLogo} alt="Workflow" />
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
@@ -70,7 +71,7 @@ export default function Header() {
                       <div>
                         <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
-                          <Image className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
+                          <Image width={8} height={8} className="h-8 w-8 rounded-full" src={userData.imageUrl} alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -124,7 +125,7 @@ export default function Header() {
               <div className="pt-4 pb-3 border-t border-gray-700">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
-                    <Image className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
+                    <Image height={10} width={10} className="h-10 w-10 rounded-full" src={userData.imageUrl} alt="" />
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-white">{userData.name}</div>
