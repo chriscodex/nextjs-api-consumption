@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { addProduct } from '@services/api/products';
+import Swal from 'sweetalert2';
 
-export default function FormProduct() {
+export default function FormProduct({ setOpen, setAlert }) {
   const formRef = useRef(null);
 
   const handleSubmit = (event) => {
@@ -15,9 +16,22 @@ export default function FormProduct() {
       images: [`https://${formData.get('images').name}fake.com`],
     };
     console.log(data);
-    addProduct(data).then((response) => {
-      console.log(response);
-    });
+    addProduct(data)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Product added succesfully',
+          confirmButtonText: 'Okay',
+        });
+        setOpen(false);
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: `Something went wrong: ${error}`,
+          confirmButtonText: 'Okay',
+          icon: 'error',
+        });
+      });
   };
 
   return (
