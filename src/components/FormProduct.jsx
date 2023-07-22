@@ -1,15 +1,17 @@
 import { useRef } from 'react';
-import { addProduct } from '@services/api/products';
+import { useRouter } from 'next/router';
+import { addProduct, updateProduct } from '@services/api/products';
 import Swal from 'sweetalert2';
 
 export default function FormProduct({ setOpen, alert, setAlert, product }) {
   const formRef = useRef(null);
+  const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(formRef.current);
 
-    const data = {
+    const productFormData = {
       title: formData.get('title'),
       price: parseInt(formData.get('price')),
       description: formData.get('description'),
@@ -18,9 +20,24 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
     };
 
     if (product) {
-      console.log(product);
+      try {
+        console.log(productFormData);
+        await updateProduct(product.id, productFormData);
+        Swal.fire({
+          icon: 'success',
+          title: 'Product updated succesfully',
+          confirmButtonText: 'Okay',
+        });
+        router.push('/dashboard/products/');
+      } catch (error) {
+        Swal.fire({
+          title: `Something went wrong: ${error}`,
+          confirmButtonText: 'Okay',
+          icon: 'error',
+        });
+      }
     } else {
-      addProduct(data)
+      addProduct(productFormData)
         .then(() => {
           Swal.fire({
             icon: 'success',

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import endPoints from '@services/api';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import MainLayout from '@layout/MainLayout';
 
 export default function Edit() {
   const [product, setProduct] = useState({});
@@ -28,5 +29,9 @@ export default function Edit() {
     getProduct();
   }, [router?.isReady]);
 
-  return <FormProduct product={product} />;
+  return (
+    <MainLayout>
+      <FormProduct product={product} />
+    </MainLayout>
+  );
 }

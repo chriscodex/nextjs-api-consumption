@@ -1,12 +1,14 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import { AuthContext } from '@hooks/useAuth';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
-import { useAuth } from '@hooks/useAuth';
 import { useRouter } from 'next/router';
 
 export default function LoginPage() {
+  const authContext = useContext(AuthContext);
+
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const { signIn, setErrorLogin, errorLogin } = useAuth();
+  const { signIn, setErrorLogin, errorLogin } = authContext;
   const router = useRouter();
 
   const submitHandler = async (event) => {
