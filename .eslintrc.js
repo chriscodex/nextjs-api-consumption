@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     semi: 'warn',
     'no-unused-vars': 'warn',
+    '@next/next/no-html-link-for-pages': 'warn',
   },
 };
