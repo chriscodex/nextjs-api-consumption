@@ -1,34 +1,41 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useAuth } from '@hooks/useAuth';
+import { AuthContext } from '@hooks/useAuth';
 import Image from 'next/image';
 import ccLogo from '../../public/chriscodex-isotipo-light.svg';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
+  { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Productos', href: '/dashboard/products/', current: false },
-  { name: 'Ventas', href: '#', current: false },
 ];
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
+const userNavigation = [{ name: 'Sign out', href: '/' }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Header() {
-  const auth = useAuth();
+  const router = useRouter();
+
+  const auth = useContext(AuthContext);
 
   const userData = {
     name: auth?.user?.name,
     email: auth?.user?.email,
     imageUrl: auth?.user?.avatar,
   };
+
+  useEffect(() => {
+    const appCookie = Cookies.get('token');
+    if (!appCookie) {
+      router.push('/login');
+    }
+  }, []);
 
   return (
     <>
@@ -44,14 +51,14 @@ export default function Header() {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item) => (
-                        <a
+                        <Link
                           key={item.name}
                           href={item.href}
                           className={classNames(item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium')}
                           aria-current={item.current ? 'page' : undefined}
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -87,9 +94,9 @@ export default function Header() {
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a href={item.href} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                                <Link href={item.href} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                                   {item.name}
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           ))}
