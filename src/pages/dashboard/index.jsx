@@ -10,7 +10,6 @@ export default function Dashboard() {
 
   const categoryNames = products?.map((product) => product.category);
   const categoryCount = categoryNames?.map((category) => category.name);
-  console.log(categoryCount);
 
   const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
 

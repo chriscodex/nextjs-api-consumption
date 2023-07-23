@@ -21,7 +21,7 @@ export default function Products() {
     deleteProduct(productId)
       .then(() => {
         Swal.fire({
-          icon: 'error',
+          icon: 'success',
           title: 'Product deleted succesfully',
           confirmButtonText: 'Okay',
         });

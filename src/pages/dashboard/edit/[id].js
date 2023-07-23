@@ -18,7 +18,7 @@ export default function Edit() {
         setProduct(response.data);
       } catch (error) {
         Swal.fire({
-          icon: 'success',
+          icon: 'error',
           title: 'Product not found',
           allowOutsideClick: false,
           showConfirmButton: false,
