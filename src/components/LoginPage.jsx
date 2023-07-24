@@ -2,9 +2,15 @@ import { useContext, useRef } from 'react';
 import { AuthContext } from '@hooks/useAuth';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import logoDark from '../../public/logotipo-dark.svg';
+import logoLight from '../../public/logotipo-light.svg';
+import { AppContext } from 'context/appContext';
 
 export default function LoginPage() {
   const authContext = useContext(AuthContext);
+
+  const { darkMode } = useContext(AppContext);
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -19,7 +25,6 @@ export default function LoginPage() {
       setErrorLogin(null);
       await signIn(email, password);
       router.push('/dashboard');
-      // console.log(errorLogin);
     } catch (error) {
       console.log(error);
       setErrorLogin(true);
@@ -28,11 +33,17 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="dark:bg-dmBlack min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+            <a href="/">
+              {darkMode ? (
+                <Image width={128} height={128} className="mx-auto h-12 w-auto" src={logoDark} alt="Workflow" />
+              ) : (
+                <Image width={128} height={128} className="mx-auto h-12 w-auto" src={logoLight} alt="Workflow" />
+              )}
+            </a>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">Sign in to your account</h2>
           </div>
           <form className="mt-8 space-y-6" onSubmit={submitHandler}>
             <input type="hidden" name="remember" defaultValue="true" />
@@ -72,13 +83,13 @@ export default function LoginPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-dmBlack dark:text-dmWhite">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="/forgot" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/forgot" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-[#068FFF]">
                   Forgot your password?
                 </a>
               </div>
