@@ -1,0 +1,25 @@
+.scrollable-cards {
+	overflow: scroll;
+}
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  .scrollable-cards {
+    scrollbar-width: auto;
+    scrollbar-color: #141414 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  .scrollable-cards::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  .scrollable-cards::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  .scrollable-cards::-webkit-scrollbar-thumb {
+    background-color: #141414;
+    border-radius: 10px;
+		/* overflow-x: hidden; */
+  }
