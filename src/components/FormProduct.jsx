@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { addProduct, updateProduct } from '@services/api/products';
 import Swal from 'sweetalert2';
 
-export default function FormProduct({ setOpen, alert, setAlert, product }) {
+export default function FormProduct({ alert, product }) {
   const formRef = useRef(null);
   const router = useRouter();
 
@@ -21,7 +21,6 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
 
     if (product) {
       try {
-        console.log(productFormData);
         await updateProduct(product.id, productFormData);
         Swal.fire({
           icon: 'success',
@@ -44,8 +43,7 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
             title: 'Product added succesfully',
             confirmButtonText: 'Okay',
           });
-          setOpen(false);
-          setAlert(!alert);
+          router.push('/dashboard/products/');
         })
         .catch((error) => {
           Swal.fire({
@@ -60,10 +58,10 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
   return (
     <form ref={formRef} onSubmit={(event) => handleSubmit(event)}>
       <div className="overflow-hidden">
-        <div className="px-4 py-5 bg-white sm:p-6">
+        <div className="px-4 py-5 bg-white dark:bg-dmBlack sm:p-6">
           <div className="grid grid-cols-6 gap-6">
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-dmWhite">
                 Title
               </label>
               <input
@@ -75,7 +73,7 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
               />
             </div>
             <div className="col-span-6 sm:col-span-3">
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-dmWhite">
                 Price
               </label>
               <input
@@ -87,7 +85,7 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
               />
             </div>
             <div className="col-span-6">
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-dmWhite">
                 Category
               </label>
               <select
@@ -106,7 +104,7 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
             </div>
 
             <div className="col-span-6">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-dmWhite">
                 Description
               </label>
               <textarea
@@ -120,7 +118,7 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
             </div>
             <div className="col-span-6">
               <div>
-                <p className="block text-sm font-medium text-gray-700">Cover photo</p>
+                <p className="block text-sm font-medium text-gray-700 dark:text-dmWhite">Cover photo</p>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -139,21 +137,21 @@ export default function FormProduct({ setOpen, alert, setAlert, product }) {
                         <span>Upload a file</span>
                         <input defaultValue={product?.images} id="images" name="images" type="file" className="sr-only" />
                       </label>
-                      <p className="pl-1">or drag and drop</p>
+                      <p className="pl-1 dark:text-dmWhite">or drag and drop</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    <p className="text-xs text-gray-500 dark:text-dmWhite">PNG, JPG, GIF up to 10MB</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 rounded-b-lg">
+        <div className="px-4 py-3 text-right sm:px-6 rounded-b-lg">
           <button
             type="submit"
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Save
+            {product ? 'Update' : 'Add'}
           </button>
         </div>
       </div>
