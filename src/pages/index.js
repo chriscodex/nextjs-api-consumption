@@ -5,15 +5,17 @@ import { ShoppingCartContext } from '@hooks/useShoppingCart';
 import { Navbar } from '@components/Home/Navbar/Navbar';
 import { ProductDetail } from '@components/Home/ProductDetail';
 import { CheckOutSideMenu } from '@components/Home/CheckoutSideMenu';
+import { LazyLoading } from '@components/Home/LazyLoading/LazyLoading';
 
 function Home() {
   const { setSearchByTitle, filteredItems } = useContext(ShoppingCartContext);
+  const arrayNumeros = new Array(16).fill(0);
 
   const renderView = () => {
     if (filteredItems?.length > 0) {
       return filteredItems?.map((item) => <Card key={item.id} product={item} />);
     } else {
-      return <div>Product not found</div>;
+      return arrayNumeros.map((_, index) => <LazyLoading key={`empty-${index}`} />);
     }
   };
 
