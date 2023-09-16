@@ -26,7 +26,7 @@ function Navbar() {
       <ul className="flex items-center gap-3 font-bold select-none">
         <li>{darkMode ? <Image className="w-8" src={logotipoDark} alt="logotipo" /> : <Image className="w-8" src={logotipoLight} alt="" />}</li>
         <li className="font-bold text-lg dark:text-[white]">
-          <Link href="/">Shop</Link>
+          <Link href="/">E-Shop</Link>
         </li>
         <li className="dark:text-[white]">
           <Link href="/" className={({ isActive }) => (isActive ? activeStyle : undefined)} onClick={() => setSearchByCategory()}>
