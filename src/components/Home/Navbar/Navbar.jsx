@@ -51,7 +51,7 @@ function Navbar() {
         <li className="flex items-center justify-between">
           <DarkModeSwitch checked={darkMode} onChange={toggleDarkMode} size={30} />
         </li>
-        <li className="dark:text-[white] font-semibold">
+        <li className="dark:text-[white] font-semibold border px-3 py-1 rounded-xl border-black dark:border-white">
           <Link href="/login">Sign In</Link>
         </li>
         <li className="flex">
